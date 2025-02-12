@@ -21,6 +21,8 @@ RUN go build -a -o /opencypher-datalayer ./cmd/main.go
 
 FROM alpine:3.21
 
+RUN apk update && apk upgrade --no-cache
+
 # Copy binaries and certificates
 COPY --from=builder /opencypher-datalayer /opencypher-datalayer
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
