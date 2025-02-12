@@ -83,10 +83,7 @@ func (n *Neo4jLogger) Debug(name, msg string) {
 
 func (n *Neo4jClient) Connect() (neo4j.DriverWithContext, error) {
 	dbUri := n.endpoint // scheme://host(:port) (default port is 7687)
-	config := func(c *neo4j.Config) {
-		c.Log = &Neo4jLogger{logger: n.logger}
-	}
-	driver, err := neo4j.NewDriverWithContext(dbUri, neo4j.BasicAuth(n.username, n.password, n.realm), config)
+	driver, err := neo4j.NewDriverWithContext(dbUri, neo4j.BasicAuth(n.username, n.password, n.realm))
 	if err != nil {
 		n.logger.Error("Failed to connect to Neo4j", "error", err)
 		return nil, err

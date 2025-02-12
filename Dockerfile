@@ -21,9 +21,6 @@ RUN go build -a -o /opencypher-datalayer ./cmd/main.go
 
 FROM alpine:3.21
 
-# Create user
-RUN addgroup -S layer && adduser -S layer -G layer
-
 # Copy binaries and certificates
 COPY --from=builder /opencypher-datalayer /opencypher-datalayer
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
@@ -31,9 +28,6 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-# Switch to non-root user
-USER layer
 
 # Set entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
